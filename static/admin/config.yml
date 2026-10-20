@@ -7,7 +7,7 @@ backend:
   repo: NazarShubeliak/NazarShubeliak.github.io
   branch: main
   # TODO: replace with your Cloudflare Worker URL (see SETUP.md, step 3)
-  base_url: https://sveltia-cms-auth.YOUR-SUBDOMAIN.workers.dev
+  base_url: https://sveltia-cms-auth.urgisweb.workers.dev
   commit_messages:
     create: "Add {{collection}} “{{slug}}”"
     update: "Update {{collection}} “{{slug}}”"

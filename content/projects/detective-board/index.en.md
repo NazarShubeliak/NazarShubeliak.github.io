@@ -20,7 +20,7 @@ stack:
   - Docker
   - nginx
 gallery: []
-repo: ""
+repo: https://github.com/NazarShubeliak/Cthulhu-Case
 live: ""
 credits: ""
 ---

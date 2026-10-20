@@ -1,0 +1,25 @@
+{{- /* Main media on a project page: YouTube, then a video file, then the cover. */ -}}
+{{- $yt := "" }}
+{{- with .Params.youtube }}
+  {{- $m := findRESubmatch `(?:youtu\.be/|[?&]v=|embed/|shorts/|live/)([A-Za-z0-9_-]{11})` . 1 }}
+  {{- if $m }}{{ $yt = index (index $m 0) 1 }}{{ else if findRE `^[A-Za-z0-9_-]{11}$` . }}{{ $yt = . }}{{ end }}
+{{- end }}
+{{- $vid := "" }}
+{{- with .Params.video }}{{ $vid = $.Resources.Get . }}{{ end }}
+{{- $cover := "" }}
+{{- with .Params.cover }}{{ $cover = $.Resources.Get . }}{{ end }}
+
+{{- if $yt }}
+<div class="media media-video">
+  <iframe src="https://www.youtube-nocookie.com/embed/{{ $yt }}" title="{{ .Title }}" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+</div>
+{{- else if $vid }}
+<div class="media media-video">
+  <video controls preload="metadata" playsinline{{ with $cover }} poster="{{ (.Fit "1600x1000 webp q80").RelPermalink }}"{{ end }}>
+    <source src="{{ $vid.RelPermalink }}" type="{{ $vid.MediaType.Type }}">
+  </video>
+</div>
+{{- else if $cover }}
+{{- $c := $cover.Fit "1600x1000 webp q82" }}
+<div class="media"><img src="{{ $c.RelPermalink }}" width="{{ $c.Width }}" height="{{ $c.Height }}" alt="{{ .Title }}"></div>
+{{- end }}

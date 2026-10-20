@@ -1,0 +1,21 @@
+{{- /* Project card in the catalog. Context: project page. */ -}}
+<a class="card" href="{{ .RelPermalink }}">
+  <div class="card-media kind-{{ .Params.kind }}">
+    {{- $img := "" }}
+    {{- with .Params.cover }}{{ $img = $.Resources.Get . }}{{ end }}
+    {{- if $img }}
+      {{- $t := $img.Fill "800x500 Center webp q80" }}
+      <img src="{{ $t.RelPermalink }}" width="{{ $t.Width }}" height="{{ $t.Height }}" alt="" loading="lazy">
+    {{- else }}
+      <ul class="card-stack" aria-hidden="true">
+        {{- range first 6 (partial "func/param.html" (dict "page" . "key" "stack")) }}<li>{{ . }}</li>{{ end }}
+      </ul>
+    {{- end }}
+    {{- if or .Params.youtube .Params.video }}<span class="has-video" aria-hidden="true"><svg viewBox="0 0 16 16" width="12" height="12"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg>{{ T "video_badge" }}</span>{{ end }}
+  </div>
+  <div class="card-body">
+    <span class="kind">{{ if eq .Params.kind "client" }}{{ T "kind_client" }}{{ else }}{{ T "kind_personal" }}{{ end }}</span>
+    <h3>{{ .Title }}</h3>
+    <p>{{ .Params.summary }}</p>
+  </div>
+</a>

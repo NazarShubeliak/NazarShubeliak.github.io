@@ -1,0 +1,59 @@
+{{ define "main" }}
+<div class="hero">
+  <h1>{{ .Title }}</h1>
+  {{ with .Params.lead }}<p class="lead">{{ . }}</p>{{ end }}
+  <div class="cta">
+    <a class="btn primary" href="#contact">{{ T "cta_discuss" }}</a>
+    <a class="btn" href="#work">{{ T "cta_work" }}</a>
+  </div>
+</div>
+
+<section id="work">
+  <h2 class="sec">{{ T "work_title" }}</h2>
+  <p class="intro">{{ T "work_intro" }}</p>
+  <div class="grid">
+    {{- range (where site.RegularPages "Section" "projects").ByWeight }}
+      {{ partial "card.html" . }}
+    {{- end }}
+  </div>
+</section>
+
+{{- with .Params.services }}
+<section id="services">
+  <h2 class="sec">{{ T "services_title" }}</h2>
+  {{ with $.Params.services_intro }}<p class="intro">{{ . }}</p>{{ end }}
+  <div class="services">
+    {{- range . }}
+    <div>
+      <h3>{{ .title }}</h3>
+      <p>{{ .text }}</p>
+      {{ with .examples }}<p class="examples">{{ . }}</p>{{ end }}
+    </div>
+    {{- end }}
+  </div>
+</section>
+{{- end }}
+
+<section>
+  <h2 class="sec">{{ T "how_title" }}</h2>
+  <p class="intro">{{ T "how_intro" }}</p>
+  <ol class="steps">
+    {{- range seq 4 }}
+    <li><h3>{{ T (printf "how_%d_title" .) }}</h3><p>{{ T (printf "how_%d_text" .) }}</p></li>
+    {{- end }}
+  </ol>
+</section>
+
+{{- with hugo.Data.tools.items }}
+<section>
+  <h2 class="sec">{{ T "tools_title" }}</h2>
+  <ul class="chips">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+</section>
+{{- end }}
+
+<section class="contact" id="contact">
+  <p class="big">{{ T "contact_title" }}</p>
+  <p class="intro">{{ T "contact_text" }}</p>
+  {{ partial "contacts.html" . }}
+</section>
+{{ end }}

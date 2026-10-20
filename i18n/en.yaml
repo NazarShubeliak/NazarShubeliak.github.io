@@ -1,0 +1,37 @@
+name: Nazar Shubeliak
+nav_work: Work
+nav_services: Services
+nav_contact: Contact
+cta_discuss: Discuss a project
+cta_work: See my work
+work_title: Selected work
+work_intro: Client projects are private, so they are shown without code. Personal projects are open on GitHub.
+kind_client: Client project
+kind_personal: Personal project
+open_project: Open project
+services_title: What I can do for you
+how_title: How we'll work
+how_intro: Written communication, a fixed price and visible progress.
+how_1_title: You describe the task
+how_1_text: What is done by hand now and what the result should be.
+how_2_title: I send a plan and price
+how_2_text: Scope, deadline and number of revisions agreed in writing.
+how_3_title: I build it
+how_3_text: With short updates, so you can correct the course early.
+how_4_title: You get it running
+how_4_text: Deployed, with instructions, and support after handover.
+tools_title: Tools I work with
+contact_title: Have a task your team repeats every week?
+contact_text: Describe it in a few sentences. I'll reply within a day with how I'd approach it.
+problem: Problem
+solution: What I built
+result: Result
+stack: Stack
+screenshots: Screenshots
+view_code: View the code
+view_live: Visit the site
+all_projects: All projects
+next_project: Next project
+video_missing: Video coming soon
+language: Language
+video_badge: Video

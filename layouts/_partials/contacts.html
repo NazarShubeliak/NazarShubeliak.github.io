@@ -1,0 +1,12 @@
+{{- $c := hugo.Data.contacts }}
+<div class="contacts">
+  {{- with $c.email }}<a class="btn primary" href="mailto:{{ . }}">Email</a>{{ end }}
+  {{- with $c.telegram }}
+    {{- $tg := . }}{{ if not (hasPrefix $tg "http") }}{{ $tg = printf "https://t.me/%s" (strings.TrimPrefix "@" $tg) }}{{ end }}
+    <a class="btn{{ if not $c.email }} primary{{ end }}" href="{{ $tg }}">Telegram</a>
+  {{- end }}
+  {{- with $c.upwork }}<a class="btn" href="{{ . }}">Upwork</a>{{ end }}
+  {{- with $c.freelancehunt }}<a class="btn" href="{{ . }}">Freelancehunt</a>{{ end }}
+  {{- with $c.linkedin }}<a class="btn" href="{{ . }}">LinkedIn</a>{{ end }}
+  {{- with $c.github }}<a class="btn" href="{{ . }}">GitHub</a>{{ end }}
+</div>

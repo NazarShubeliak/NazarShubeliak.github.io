@@ -1,0 +1,57 @@
+{{ define "main" }}
+<article class="project">
+  <a class="back" href="{{ site.Home.RelPermalink }}#work">{{ T "all_projects" }}</a>
+  <header class="project-head">
+    <span class="kind">{{ if eq .Params.kind "client" }}{{ T "kind_client" }}{{ else }}{{ T "kind_personal" }}{{ end }}</span>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.summary }}<p class="lead">{{ . }}</p>{{ end }}
+    {{- if or .Params.repo .Params.live }}
+    <div class="cta">
+      {{ with .Params.live }}<a class="btn primary" href="{{ . }}">{{ T "view_live" }}</a>{{ end }}
+      {{ with .Params.repo }}<a class="btn{{ if not $.Params.live }} primary{{ end }}" href="{{ . }}">{{ T "view_code" }}</a>{{ end }}
+    </div>
+    {{- end }}
+  </header>
+
+  {{ partial "media.html" . }}
+
+  <div class="project-body">
+    <dl class="facts">
+      {{ with .Params.problem }}<dt>{{ T "problem" }}</dt><dd>{{ . }}</dd>{{ end }}
+      {{ with .Params.solution }}<dt>{{ T "solution" }}</dt><dd>{{ . }}</dd>{{ end }}
+      {{ with .Params.result }}<dt>{{ T "result" }}</dt><dd class="result">{{ . }}</dd>{{ end }}
+    </dl>
+    <aside class="side">
+      <h2>{{ T "stack" }}</h2>
+      <ul class="chips">{{ range partial "func/param.html" (dict "page" . "key" "stack") }}<li>{{ . }}</li>{{ end }}</ul>
+      {{ with .Params.credits }}<p class="credits">{{ . }}</p>{{ end }}
+    </aside>
+  </div>
+
+  {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+
+  {{- $imgs := slice }}
+  {{- range partial "func/param.html" (dict "page" . "key" "gallery") }}{{ with $.Resources.Get . }}{{ $imgs = $imgs | append . }}{{ end }}{{ end }}
+  {{- with $imgs }}
+  <section class="gallery-wrap">
+    <h2 class="sec-sm">{{ T "screenshots" }}</h2>
+    <div class="gallery">
+      {{- range . }}
+      {{- $t := .Fit "1200x900 webp q80" }}
+      <a href="{{ .RelPermalink }}" target="_blank" rel="noopener"><img src="{{ $t.RelPermalink }}" width="{{ $t.Width }}" height="{{ $t.Height }}" alt="{{ $.Title }}" loading="lazy"></a>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
+
+  {{- $all := (where site.RegularPages "Section" "projects").ByWeight }}
+  {{- $next := $all.Prev . }}{{/* Hugo: Prev = the following item in this order */}}
+  {{- if not $next }}{{ $next = index $all 0 }}{{ end }}
+  {{- if ne $next.RelPermalink .RelPermalink }}
+  <a class="next" href="{{ $next.RelPermalink }}">
+    <span>{{ T "next_project" }}</span>
+    <strong>{{ $next.Title }}</strong>
+  </a>
+  {{- end }}
+</article>
+{{ end }}

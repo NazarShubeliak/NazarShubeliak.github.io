@@ -1,0 +1,129 @@
+# Decap CMS for the portfolio.
+# Online editing: https://nazarshubeliak.github.io/admin/
+# Local editing: run `npx decap-server` and `hugo server`, then open http://localhost:1313/admin/
+
+backend:
+  name: github
+  repo: NazarShubeliak/NazarShubeliak.github.io
+  branch: main
+  # TODO: replace with your Cloudflare Worker URL (see SETUP.md, step 3)
+  base_url: https://sveltia-cms-auth.YOUR-SUBDOMAIN.workers.dev
+  commit_messages:
+    create: "Add {{collection}} “{{slug}}”"
+    update: "Update {{collection}} “{{slug}}”"
+    delete: "Delete {{collection}} “{{slug}}”"
+    uploadMedia: "Upload “{{path}}”"
+    deleteMedia: "Delete “{{path}}”"
+
+local_backend: true
+site_url: https://nazarshubeliak.github.io
+display_url: https://nazarshubeliak.github.io
+logo_url: /favicon.svg
+
+media_folder: static/uploads
+public_folder: /uploads
+
+i18n:
+  structure: multiple_files
+  locales: [en, uk]
+  default_locale: en
+
+collections:
+  - name: projects
+    label: Projects
+    label_singular: Project
+    description: "Each project gets its own page and a card in the catalog. Fill in English first, then switch to UK."
+    folder: content/projects
+    editor: {preview: false}
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    create: true
+    i18n: true
+    extension: md
+    format: frontmatter
+    slug: "{{title}}"
+    sortable_fields: [weight, title]
+    summary: "{{weight}}. {{title}}"
+    fields:
+      - {label: Title, name: title, widget: string, i18n: true, hint: "The English title also becomes the page address."}
+      - {label: "Short description (card and top of the page)", name: summary, widget: text, i18n: true}
+      - label: Type
+        name: kind
+        widget: select
+        i18n: duplicate
+        default: client
+        options:
+          - {label: "Client project", value: client}
+          - {label: "Personal project", value: personal}
+      - {label: "Order in the catalog (1 = first)", name: weight, widget: number, value_type: int, default: 10, i18n: duplicate}
+      - {label: "Cover image (card and page)", name: cover, widget: image, required: false, i18n: duplicate, hint: "Landscape, at least 1600 px wide. Also used as the video poster."}
+      - {label: "YouTube link", name: youtube, widget: string, required: false, i18n: duplicate, hint: "For long videos. Upload to YouTube as Unlisted and paste the link."}
+      - {label: "Video file (MP4)", name: video, widget: file, required: false, i18n: duplicate, hint: "For short clips only, keep it small (under ~20 MB). If a YouTube link is set, it is shown instead."}
+      - {label: Problem, name: problem, widget: text, required: false, i18n: true}
+      - {label: "What I built", name: solution, widget: text, i18n: true}
+      - {label: Result, name: result, widget: text, required: false, i18n: true}
+      - {label: Stack, name: stack, widget: list, hint: "Comma-separated, e.g. Python, Django, Redis. Filled in English only; the UK page uses the same list."}
+      - label: Screenshots
+        name: gallery
+        widget: list
+        required: false
+        hint: "Filled in English only; the UK page shows the same screenshots."
+        field: {label: Image, name: image, widget: image}
+      - {label: "Code link (GitHub)", name: repo, widget: string, required: false, i18n: duplicate}
+      - {label: "Live site link", name: live, widget: string, required: false, i18n: duplicate}
+      - {label: "Credits", name: credits, widget: string, required: false, i18n: true, hint: "E.g. Started together with a friend; I built most of the features."}
+      - {label: "Extra text", name: body, widget: markdown, required: false, i18n: true}
+
+  - name: pages
+    label: Pages
+    editor: {preview: false}
+    files:
+      - name: home_en
+        label: "Home page (English)"
+        file: content/_index.en.md
+        fields:
+          - {label: Headline, name: title, widget: string}
+          - {label: Intro, name: lead, widget: text}
+          - {label: "Services intro", name: services_intro, widget: string}
+          - label: Services
+            name: services
+            widget: list
+            fields:
+              - {label: Title, name: title, widget: string}
+              - {label: Text, name: text, widget: text}
+              - {label: Examples, name: examples, widget: text, required: false}
+      - name: home_uk
+        label: "Home page (Українська)"
+        file: content/_index.uk.md
+        fields:
+          - {label: Headline, name: title, widget: string}
+          - {label: Intro, name: lead, widget: text}
+          - {label: "Services intro", name: services_intro, widget: string}
+          - label: Services
+            name: services
+            widget: list
+            fields:
+              - {label: Title, name: title, widget: string}
+              - {label: Text, name: text, widget: text}
+              - {label: Examples, name: examples, widget: text, required: false}
+
+  - name: settings
+    label: Settings
+    editor: {preview: false}
+    files:
+      - name: contacts
+        label: Contacts
+        file: data/contacts.yaml
+        fields:
+          - {label: Email, name: email, widget: string, required: false}
+          - {label: "Telegram (username or link)", name: telegram, widget: string, required: false}
+          - {label: "GitHub link", name: github, widget: string, required: false}
+          - {label: "Upwork profile link", name: upwork, widget: string, required: false}
+          - {label: "Freelancehunt profile link", name: freelancehunt, widget: string, required: false}
+          - {label: "LinkedIn link", name: linkedin, widget: string, required: false}
+      - name: tools
+        label: Tools list
+        file: data/tools.yaml
+        fields:
+          - {label: Tools, name: items, widget: list}

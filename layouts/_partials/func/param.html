@@ -1,0 +1,7 @@
+{{- /* Returns .Params[key] of the page, or of its English translation when empty.
+       Decap stores language-independent list fields only in the English file. */ -}}
+{{- $p := .page }}{{ $v := index $p.Params .key }}
+{{- if not $v }}
+  {{- range $p.Translations }}{{ if eq .Language.Lang "en" }}{{ $v = index .Params $.key }}{{ end }}{{ end }}
+{{- end }}
+{{- return $v }}

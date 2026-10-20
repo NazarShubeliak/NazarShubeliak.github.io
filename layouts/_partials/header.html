@@ -1,0 +1,16 @@
+<header class="top">
+  <a class="mark" href="{{ site.Home.RelPermalink }}">{{ T "name" }}</a>
+  <nav aria-label="Main">
+    <a class="navlink" href="{{ site.Home.RelPermalink }}#work">{{ T "nav_work" }}</a>
+    <a class="navlink" href="{{ site.Home.RelPermalink }}#services">{{ T "nav_services" }}</a>
+    <a class="navlink" href="{{ site.Home.RelPermalink }}#contact">{{ T "nav_contact" }}</a>
+    {{- if gt (len .AllTranslations) 1 }}
+    <div class="lang" role="group" aria-label="{{ T "language" }}">
+      {{- range .AllTranslations }}
+      {{- $active := eq .Language.Lang $.Language.Lang }}
+      <a href="{{ .RelPermalink }}" hreflang="{{ .Language.Locale }}"{{ if $active }} aria-current="true"{{ end }}>{{ .Language.Label }}</a>
+      {{- end }}
+    </div>
+    {{- end }}
+  </nav>
+</header>

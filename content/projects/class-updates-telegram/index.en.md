@@ -17,7 +17,7 @@ stack:
   - Python
   - Telegram Bot API
 gallery: []
-repo: ""
+repo: https://github.com/NazarShubeliak/Logika-Message-Generator
 live: ""
 credits: ""
 ---

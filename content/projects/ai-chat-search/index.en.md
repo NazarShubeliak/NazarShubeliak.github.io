@@ -20,7 +20,7 @@ stack:
   - PostgreSQL
   - pgvector
   - sentence-transformers
-  - OpenAI / DeepSeek
+  - OpenAI
   - Docker
   - nginx
 gallery: []
